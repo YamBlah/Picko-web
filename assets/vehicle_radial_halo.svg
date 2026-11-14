@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="86.4" height="86.4" viewBox="0 0 86.4 86.4" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle id="Vehicle / Radial Halo" cx="43.2" cy="43.2" r="43.2" fill="url(#paint0_radial_0_139)"/>
+<defs>
+<radialGradient id="paint0_radial_0_139" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(43.2 43.2) scale(43.2)">
+<stop stop-color="#61A6F8" stop-opacity="0.5"/>
+<stop offset="0.45" stop-color="#61A6F8" stop-opacity="0.23"/>
+<stop offset="1" stop-color="#61A6F8" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

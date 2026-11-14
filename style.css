@@ -1,0 +1,436 @@
+/* ===== PICKO 디자인 토큰 ===== */
+:root {
+  --c-primary:         #416DE9;
+  --c-primary-dark:    #2E5AD2;
+  --c-primary-light:   #678AED;
+  --c-navy:            #171D32;
+  --c-navy-text:       #172D51;
+  --c-navy-blue:       #173A75;
+  --c-text-secondary:  #526583;
+  --c-glass-border:    rgba(194, 219, 245, 0.9);
+  --c-bg-soft:         #F2F7FF;
+  --c-blue-ice:        #E4F0FF;
+  --c-blue-gray-light: #D1DFF0;
+  --c-gray-light:      #D9D9D9;
+  --c-gray-blue:       #ADBDD6;
+  --c-mint-light:      #91F7D1;
+  --c-white:           #FFFFFF;
+
+  --shadow-level-1:    0 6px 24px rgba(0, 0, 0, 0.08);
+  --shadow-marker:     0 2px 8px rgba(0, 0, 0, 0.08);
+  --gradient-primary:  linear-gradient(155.66deg, #678AED 6.4%, #416DE9 48%, #2E5AD2 86.4%);
+
+  --radius-sm:         8px;
+  --radius-md:         13px;
+  --radius-lg:         14px;
+  --radius-xl:         15px;
+  --radius-sheet:      24px;
+}
+
+/* ===== Reset / Base ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+body {
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: #E5E5E5;
+  color: var(--c-navy);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+img { display: block; }
+
+/* ===== 전체 화면 — 뷰포트 꽉 채움 ===== */
+.screen {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0 auto;
+  background: var(--c-white);
+  overflow: hidden;
+}
+
+/* ===== 지도 — 전체 영역 꽉 채우고, 바텀시트가 위에 겹침 ===== */
+.map-section {
+  position: absolute;
+  inset: 0;
+  background: var(--c-bg-soft);
+}
+.map { width: 100%; height: 100%; }
+
+/* 지도 범례 — 바텀시트 기본 위치(345px) 바로 위에 뜨도록 */
+.map-legend {
+  position: absolute;
+  left: 16px;
+  bottom: calc(var(--sheet-height, 345px) + 16px);
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  background: var(--c-white);
+  border-radius: 16px;
+  box-shadow: var(--shadow-level-1);
+  padding: 2px 6px;
+  height: 32px;
+  z-index: 5;
+  transition: bottom 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 0;
+  background: transparent;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--c-navy);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.legend-item:hover { background: var(--c-blue-ice); }
+.legend-item:active { background: #D9E9FF; }
+.legend-item img {
+  width: 15px;
+  height: 15px;
+}
+
+/* 재센터 버튼 — 범례와 같은 높이로 */
+.recenter-btn {
+  position: absolute;
+  right: 16px;
+  bottom: calc(var(--sheet-height, 345px) + 16px);
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  overflow: visible;
+  z-index: 5;
+  transition: bottom 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.recenter-btn svg {
+  position: absolute;
+  width: 77.1765px;
+  height: 77.1765px;
+  top: -16.94px;
+  left: -22.59px;
+  pointer-events: none;
+}
+
+/* ===== 지도 마커 (카카오맵 CustomOverlay 안에 들어감) =====
+ * 레이아웃: 배지만 container 크기 결정, 라벨은 absolute 로 배지 오른쪽에 떠다님.
+ * → xAnchor/yAnchor = 0.5, 0.5 (배지 중심) 로 배지가 정확히 좌표 위에 옴.
+ */
+.marker-combined {
+  display: inline-block;
+  position: relative;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.marker-badge {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  border: 1.5px solid var(--c-white);
+  box-shadow: var(--shadow-marker);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.marker-badge.vehicle { background: var(--c-primary); }
+.marker-badge.pedestrian { background: var(--c-mint-light); }
+.marker-badge img { width: 17px; height: 17px; }
+
+/* 차량 반경 할로 — SVG 86.4x86.4, 배지(32) 중심에 위치 */
+.vehicle-halo {
+  position: absolute;
+  width: 86.4px;
+  height: 86.4px;
+  left: -27.2px;
+  top: -27.2px;
+  pointer-events: none;
+  z-index: -1;
+}
+.vehicle-halo img { width: 100%; height: 100%; display: block; }
+
+/* 마커 옆 라벨 — absolute 로 배지 오른쪽에 둬서 배지-좌표 정렬 안 흔들리게 */
+.marker-label {
+  position: absolute;
+  left: calc(100% + 5px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--c-white);
+  border: 0.7px solid var(--c-glass-border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-marker);
+  padding: 6px 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: nowrap;
+  z-index: 2;
+}
+.marker-label .label-title {
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--c-navy-text);
+}
+.marker-label .label-sub {
+  font-weight: 400;
+  font-size: 9.5px;
+  color: var(--c-text-secondary);
+}
+
+/* 추천 픽업 위치 마커 — inline SVG, drop shadow 포함 44x44, visual pin 은 29x29 */
+.marker-pickup-badge {
+  position: relative;
+  width: 29px;
+  height: 29px;
+  overflow: visible;
+  z-index: 1;
+}
+.marker-pickup-badge svg {
+  position: absolute;
+  width: 44.88px;
+  height: 44.88px;
+  top: -5.94px;
+  left: -7.92px;
+}
+
+/* ===== 바텀시트 — 드래그 가능 ===== */
+.sheet {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  background: var(--c-white);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.08);
+  padding: 0 20px 20px;
+  z-index: 10;
+  height: 345px;
+  max-height: 85dvh;
+  min-height: 72px;
+  transition: height 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+.sheet::-webkit-scrollbar { display: none; }
+
+/* 핸들 — 상단 sticky 로 스크롤돼도 보임, 전체 가로 탭 영역 */
+.drag-handle {
+  width: 100%;
+  padding: 10px 0 14px;
+  display: flex;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+  position: sticky;
+  top: 0;
+  background: var(--c-white);
+  z-index: 11;
+}
+.drag-handle::before {
+  content: '';
+  display: block;
+  width: 45px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--c-blue-gray-light);
+}
+.drag-handle:active { cursor: grabbing; }
+
+.sheet-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.sheet-title {
+  font-weight: 700;
+  font-size: 21px;
+  color: var(--c-navy);
+  line-height: 1;
+}
+.sheet-sub {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--c-text-secondary);
+  line-height: 1;
+}
+
+/* 차량 정보 카드 */
+.vehicle-card {
+  position: relative;
+  background: var(--c-bg-soft);
+  border-radius: var(--radius-xl);
+  height: 90px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.vehicle-icon {
+  width: 54px;
+  height: 56px;
+  flex-shrink: 0;
+  background: var(--c-blue-ice);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vehicle-icon img { width: 36px; height: 36px; }
+
+.vehicle-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.vehicle-model {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--c-text-secondary);
+}
+.vehicle-plate {
+  font-weight: 700;
+  font-size: 19px;
+  color: var(--c-navy);
+  line-height: 1;
+}
+.vehicle-color {
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--c-text-secondary);
+}
+
+.eta-divider {
+  width: 1px;
+  height: 62px;
+  background: var(--c-gray-light);
+  flex-shrink: 0;
+}
+.eta {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: 65px;
+}
+.eta-label {
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--c-text-secondary);
+}
+.eta-value {
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--c-primary);
+  line-height: 1;
+  white-space: nowrap;
+  min-width: 48px;   /* "3분" / "15분" 등 레이아웃 흔들림 방지 */
+}
+
+/* 픽업 위치 */
+.pickup-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 14px;
+}
+.pickup-meta {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  font-size: 11px;
+  color: var(--c-text-secondary);
+}
+.pickup-meta .dot { padding: 0 2px; }
+.pickup-meta .walk { color: var(--c-navy-blue); }
+.pickup-name {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--c-navy);
+  line-height: 22px;
+  height: 22px;
+}
+
+/* CTA 버튼 */
+.cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: 49px;
+  background: var(--gradient-primary);
+  border: 1px solid rgba(228, 240, 255, 0.66);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-level-1);
+  color: var(--c-white);
+  font-weight: 700;
+  font-size: 15px;
+}
+.cta-btn:active { filter: brightness(0.95); }
+.cta-btn .cta-icon { width: 18px; height: 18px; }
+
+/* 위치 공유 중 상태 — 비활성 버튼 */
+.cta-btn.sharing {
+  background: #D9E9FF;
+  color: var(--c-text-secondary);
+  cursor: default;
+  filter: none;
+}
+.cta-btn.sharing:active { filter: none; }
+.cta-btn.sharing:disabled { opacity: 1; }
+.cta-btn:disabled { opacity: 0.7; cursor: default; }
+
+.cta-hint {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--c-gray-blue);
+}
+
+/* ===== 링크 만료 폴백 화면 ===== */
+.expired {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 24px;
+  text-align: center;
+  background: var(--c-bg-soft);
+  color: var(--c-navy);
+}
+.expired .emoji { font-size: 48px; margin-bottom: 12px; }
+.expired .title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.expired .desc { font-size: 13px; color: var(--c-text-secondary); }
+.expired .reason { font-size: 11px; color: var(--c-gray-blue); margin-top: 16px; }
+
+/* ===== 지오로케이션 오류 배너 ===== */
+.geo-error-banner {
+  margin: 8px 16px;
+  padding: 12px;
+  background: #fff4f4;
+  border: 1px solid #ffb3b3;
+  border-radius: 8px;
+  color: #8c2222;
+  font-size: 12px;
+  white-space: pre-wrap;
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Picko · 픽업 안내</title>
+  <meta name="description" content="헤매지 않는 픽업, 픽코와 함께!" />
+  <meta name="theme-color" content="#416DE9" />
+
+  <!-- Open Graph (카카오톡/페이스북/디스코드/슬랙 미리보기) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Picko" />
+  <meta property="og:title" content="Picko · 픽업 안내" />
+  <meta property="og:description" content="운전자가 픽업 지점을 안내했어요. 아래 링크에서 확인하세요." />
+  <meta property="og:image" content="https://picko.up.railway.app/assets/og-image.png" />
+  <meta property="og:image:width" content="1744" />
+  <meta property="og:image:height" content="1232" />
+  <meta property="og:url" content="https://picko.up.railway.app" />
+  <meta property="og:locale" content="ko_KR" />
+
+  <!-- Twitter / iMessage 보조 -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Picko · 픽업 안내" />
+  <meta name="twitter:description" content="운전자가 픽업 지점을 안내했어요." />
+  <meta name="twitter:image" content="https://picko.up.railway.app/assets/og-image.png" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script
+    type="text/javascript"
+    src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d8a9a27e90cd5ba00102b59cccf34c78&autoload=false&libraries=services"
+  ></script>
+</head>
+<body>
+  <div class="screen" data-node-id="64:10212">
+
+    <!-- 지도 영역 -->
+    <section class="map-section">
+      <div id="map" class="map"></div>
+
+      <!-- 지도 범례 (클릭 → 해당 마커로 이동) -->
+      <div class="map-legend">
+        <button type="button" class="legend-item" data-target="vehicle">
+          <img src="assets/legend_vehicle.svg" alt="" aria-hidden="true" />차량
+        </button>
+        <button type="button" class="legend-item" data-target="me">
+          <img src="assets/legend_pedestrian.svg" alt="" aria-hidden="true" />내 위치
+        </button>
+        <button type="button" class="legend-item" data-target="meet">
+          <img src="assets/legend_meeting.svg" alt="" aria-hidden="true" />만남 지점
+        </button>
+      </div>
+
+      <!-- 재센터 버튼 (inline SVG for filter 호환) -->
+      <button id="recenterBtn" class="recenter-btn" aria-label="내 위치로">
+        <svg width="77.1765" height="77.1765" viewBox="0 0 77.1765 77.1765" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#f_rc)">
+            <rect x="22.5882" y="16.9412" width="32" height="32" rx="16" fill="white"/>
+            <circle cx="38.5882" cy="32.9412" r="6.68235" stroke-width="1.69412" stroke="#416DE9"/>
+            <circle cx="38.5882" cy="32.9412" r="2.82353" fill="#416DE9"/>
+          </g>
+          <defs>
+            <filter id="f_rc" x="0" y="0" width="77.1765" height="77.1765" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BG"/>
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hA"/>
+              <feOffset dy="5.64706"/>
+              <feGaussianBlur stdDeviation="11.2941"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+              <feBlend mode="normal" in2="BG" result="shadow"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="shadow"/>
+            </filter>
+          </defs>
+        </svg>
+      </button>
+    </section>
+
+    <!-- 바텀시트 (드래그 가능) -->
+    <section class="sheet" id="sheet">
+      <div class="drag-handle" id="dragHandle" aria-label="시트 조절"></div>
+
+      <!-- 헤더 -->
+      <div class="sheet-header">
+        <h1 class="sheet-title">차량이 오고 있어요!</h1>
+        <p class="sheet-sub">운전자가 지정한 픽업 장소에서 만나요.</p>
+      </div>
+
+      <!-- 차량 정보 카드 -->
+      <div class="vehicle-card">
+        <div class="vehicle-icon">
+          <img src="assets/ic_driver_card.svg" alt="" aria-hidden="true" />
+        </div>
+        <div class="vehicle-info">
+          <div class="vehicle-model"></div>
+          <div class="vehicle-plate"></div>
+          <div class="vehicle-color"></div>
+        </div>
+        <div class="eta-divider" aria-hidden="true"></div>
+        <div class="eta">
+          <div class="eta-label">도착 예정</div>
+          <div class="eta-value">—</div>
+        </div>
+      </div>
+
+      <!-- 픽업 위치 -->
+      <div class="pickup-details">
+        <div class="pickup-meta">
+          <span>픽업 위치</span>
+          <span class="dot">·</span>
+          <span class="walk">위치 공유 전</span>
+        </div>
+        <div class="pickup-name"></div>
+      </div>
+
+      <!-- CTA 버튼 -->
+      <button class="cta-btn" type="button">
+        <img src="assets/ic_send.svg" alt="" aria-hidden="true" class="cta-icon" />
+        <span>운전자에게 내 위치 보내기</span>
+      </button>
+
+      <p class="cta-hint">내 위치를 공유해 운전자와 더 쉽게 만날 수 있어요.</p>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
