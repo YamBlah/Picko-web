@@ -419,8 +419,6 @@ Pleos STT·TTS는 온디바이스 모드로 사용하므로 Pleos 클라이언�
 <tr><td align="center"><strong>Android Repository</strong></td><td align="center"><a href="https://github.com/smsdia/Picko">smsdia/Picko</a></td></tr>
 <tr><td align="center"><strong>Web Repository</strong></td><td align="center"><a href="https://github.com/YamBlah/Picko-web">yamblah/Picko-web</a></td></tr>
 <tr><td align="center"><strong>Server Repository</strong></td><td align="center"><a href="https://github.com/YamBlah/Picko-server">yamblah/Picko-server</a></td></tr>
-
-  https://github.com/YamBlah/Picko-web
 <tr><td align="center"><strong>FigJam — 아이데이션 및 서비스 기획</strong></td><td align="center"><a href="https://www.figma.com/board/mqnhf3HxdYlIIkV3a8Yidq/OT?node-id=0-1">View FigJam</a></td></tr>
 <tr><td align="center"><strong>Figma — UI 디자인 및 프로토타입</strong></td><td align="center"><a href="https://www.figma.com/design/JPMWETJfQWTImjbH2okdNz/-현대자동차그룹--차량용-앱-개발-공모전?node-id=0-1">View Figma</a></td></tr>
 <tr><td align="center"><strong>Demo Videos</strong></td><td align="center"><a href="./preview/vehicle/vehicle_demo.mp4">Vehicle App</a> · <a href="./preview/web/web_demo.mp4">Passenger Web</a></td></tr>
