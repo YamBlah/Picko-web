@@ -45,6 +45,9 @@ PICKO(픽코)는 차량 내 음성 호출로 픽업 장소를 추천하고, 모�
 
 <br>
 
+<img src="./images/picko_intro.png" alt="PICKO Thumbnail" />
+
+
 ---
 
 ## <img src="./images/bar.svg" height="20" alt="" /> 02. Key Features
