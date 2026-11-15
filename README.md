@@ -360,7 +360,7 @@ Pleos STT·TTS는 온디바이스 모드로 사용하므로 Pleos 클라이언�
 <img src="https://img.shields.io/badge/DOWNLOAD_APK-416DE9?style=for-the-badge&logo=android&logoColor=white" alt="Download APK" />
 </a>
 &nbsp;
-<a href="https://github.com/smsdia/Picko/tree/develop/apk">
+<a href="https://github.com/smsdia/Picko/tree/main/apk">
 <img src="https://img.shields.io/badge/APK_DIRECTORY-253858?style=for-the-badge&logo=github&logoColor=white" alt="APK Directory" />
 </a>
 
@@ -369,15 +369,21 @@ Pleos STT·TTS는 온디바이스 모드로 사용하므로 Pleos 클라이언�
 <br>
 
 <table width="100%">
+
 <thead><tr><th align="center">Item</th><th align="center">Details</th></tr></thead>
+
 <tbody>
+
 <tr><td align="center"><strong>Version</strong></td><td align="center"><code>1.0</code></td></tr>
+
 <tr><td align="center"><strong>APK</strong></td><td align="center"><a href="https://github.com/smsdia/Picko/raw/main/apk/OffCourse_Picko_release.apk"><code>OffCourse_Picko_release.apk</code></a></td></tr>
-<tr><td align="center"><strong>APK Directory</strong></td><td align="center"><a href="https://github.com/smsdia/Picko/tree/develop/apk"><code>develop/apk</code></a></td></tr>
+
+<tr><td align="center"><strong>APK Directory</strong></td><td align="center"><a href="https://github.com/smsdia/Picko/tree/main/apk"><code>main/apk</code></a></td></tr>
+
 <tr><td align="center"><strong>Alternative Raw URL</strong></td><td align="center"><a href="https://raw.githubusercontent.com/smsdia/Picko/main/apk/OffCourse_Picko_release.apk">Raw APK</a></td></tr>
+
 </tbody></table>
 
-> **안내:** 첨부 자료에 `main` APK 파일 링크와 `develop` APK 폴더 링크가 함께 기재되어 있습니다. 실제 파일 존재 여부와 배포 브랜치는 최종 확인이 필요합니다.
 
 <br>
 
